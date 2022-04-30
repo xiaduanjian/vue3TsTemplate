@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 17:04:16
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-04-30 17:33:52
+ * @LastEditTime: 2022-04-30 21:59:50
  * @Description: eslint配置
  * 所需插件
  * prettier // 规则见 https://prettier.io/docs/en/options.html
@@ -29,11 +29,14 @@ module.exports = {
     'eslint:recommended',
     '@vue/typescript/recommended',
     '@vue/prettier',
-    '@/vue/prettier/@typescript-eslint'
+    '@vue/prettier/@typescript-eslint',
+    'plugin:prettier/recommended'
   ],
   // 这是初始生成的 将其中的内容更改为下面的
   parserOptions: {
-    ecmaVersion: 'lastest'
+    parsar: '@typescript-eslint/parsar',
+    ecmaVersion: 'lastest',
+    sourceType: 'module'
   },
   globals: {
     BMap: true,
