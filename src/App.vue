@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 14:05:11
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-01 14:40:48
+ * @LastEditTime: 2022-05-01 16:06:36
  * @Description: file content
 -->
 <script setup lang="ts">
@@ -11,20 +11,14 @@
 </script>
 
 <template>
-  <div>
-    app
-    <el-button>Default</el-button>
-    <el-button type="primary">Primary</el-button>
-    <el-button type="success">Success</el-button>
+  <div class="app-main">
     <router-view />
   </div>
 </template>
 
 <style lang="scss">
-body {
-  background: #fff;
-  a {
-    color: red;
-  }
+.app-main {
+  height: 100%;
+  width: 100%;
 }
 </style>

@@ -2,103 +2,110 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 15:35:55
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-04-30 22:39:56
+ * @LastEditTime: 2022-05-02 00:01:18
  * @Description: file content
 -->
 <template>
-  <el-form
-    ref="ruleFormRef"
-    :model="ruleForm"
-    status-icon
-    :rules="rules"
-    label-width="120px"
-    class="demo-ruleForm"
-  >
-    <el-form-item label="Password" prop="pass">
-      <el-input v-model="ruleForm.pass" type="password" autocomplete="off" />
-    </el-form-item>
-    <el-form-item label="Confirm" prop="checkPass">
-      <el-input v-model="ruleForm.checkPass" type="password" autocomplete="off" />
-    </el-form-item>
-    <el-form-item label="Age" prop="age"><el-input v-model.number="ruleForm.age" /></el-form-item>
-    <el-form-item>
-      <el-button type="primary" @click="submitForm(ruleFormRef)">Submit</el-button>
-      <el-button @click="resetForm(ruleFormRef)">Reset</el-button>
-    </el-form-item>
-  </el-form>
+  <div class="login-wrap">
+    <el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="rules" class="login-form">
+      <el-form-item prop="username">
+        <el-input
+          v-model="ruleForm.username"
+          type="text"
+          autocomplete="off"
+          placeholder="请输入用户账号"
+        >
+          <template #prefix>
+            <el-icon><user-filled /></el-icon>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item prop="password">
+        <el-input
+          v-model="ruleForm.password"
+          type="passwordword"
+          autocomplete="off"
+          placeholder="请输入密码"
+        >
+          <template #prefix>
+            <el-icon><opportunity /></el-icon>
+          </template>
+        </el-input>
+      </el-form-item>
+      <div class="login-btn">
+        <el-button type="primary" @click="submitForm()">登录</el-button>
+      </div>
+    </el-form>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref } from 'vue';
-import type { FormInstance } from 'element-plus';
-
-const ruleFormRef = ref<FormInstance>();
-
-const checkAge = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error('Please input the age'));
-  }
-  setTimeout(() => {
-    if (!Number.isInteger(value)) {
-      callback(new Error('Please input digits'));
-    } else {
-      if (value < 18) {
-        callback(new Error('Age must be greater than 18'));
-      } else {
-        callback();
+import { reactive, ref, toRefs } from 'vue';
+import { userLogin } from '@/api/login';
+// import type { FormInstance } from 'element-plus';
+// const ruleFormRef = ref<FormInstance>();
+let ruleFormRef = ref();
+const state = reactive({
+  ruleForm: {
+    username: '',
+    password: ''
+  },
+  rules: {
+    username: [
+      {
+        required: true,
+        message: '请输入用户账号!',
+        trigger: 'blur'
       }
-    }
-  }, 1000);
-};
-
-const validatePass = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password'));
-  } else {
-    if (ruleForm.checkPass !== '') {
-      if (!ruleFormRef.value) return;
-      ruleFormRef.value.validateField('checkPass', () => null);
-    }
-    callback();
+    ],
+    password: [
+      {
+        required: true,
+        message: '请输入密码!',
+        trigger: 'blur'
+      }
+    ]
   }
-};
-const validatePass2 = (rule: any, value: any, callback: any) => {
-  if (value === '') {
-    callback(new Error('Please input the password again'));
-  } else if (value !== ruleForm.pass) {
-    callback(new Error("Two inputs don't match!"));
-  } else {
-    callback();
-  }
-};
-
-const ruleForm = reactive({
-  pass: '',
-  checkPass: '',
-  age: ''
 });
-
-const rules = reactive({
-  pass: [{ validator: validatePass, trigger: 'blur' }],
-  checkPass: [{ validator: validatePass2, trigger: 'blur' }],
-  age: [{ validator: checkAge, trigger: 'blur' }]
-});
-
-const submitForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.validate((valid) => {
-    if (valid) {
-      console.log('submit!');
-    } else {
-      console.log('error submit!');
-      return false;
-    }
-  });
+const { ruleForm, rules } = toRefs(state);
+const submitForm = () => {
+  ruleFormRef.value
+    .validate()
+    .then(() => {
+      userLogin(ruleForm.value).then((res) => {
+        console.log(res);
+      });
+      console.log('检验通过!');
+    })
+    .catch(() => {
+      console.log('检验不通过!');
+    });
 };
-
-const resetForm = (formEl: FormInstance | undefined) => {
-  if (!formEl) return;
-  formEl.resetFields();
-};
+// const resetForm = (formEl: FormInstance | undefined) => {
+//   if (!formEl) return;
+//   formEl.resetFields();
+// };
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.login-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee;
+}
+.login-form {
+  width: 400px;
+  padding: 20px {
+    bottom: 0;
+  }
+  background-color: #fff;
+  .login-btn {
+    padding-bottom: 20px;
+    .el-button {
+      width: 100%;
+    }
+  }
+}
+</style>
