@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 15:35:55
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-02 00:01:18
+ * @LastEditTime: 2022-05-02 15:54:24
  * @Description: file content
 -->
 <template>
@@ -33,6 +33,7 @@
         </el-input>
       </el-form-item>
       <div class="login-btn">
+        <svg-icon icon-class="lock" class="loack-icon"></svg-icon>
         <el-button type="primary" @click="submitForm()">登录</el-button>
       </div>
     </el-form>
