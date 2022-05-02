@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 14:05:11
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-02 18:31:37
+ * @LastEditTime: 2022-05-02 22:23:15
  * @Description: file content
  */
 import { defineConfig, loadEnv } from 'vite';
@@ -12,6 +12,7 @@ import path, { resolve } from 'path';
 import AutoImport from 'unplugin-auto-import/vite';
 // 实现vue组件库的自动按需导入,这样就不用手动导入了
 import Components from 'unplugin-vue-components/vite';
+// ElementPlus按需加载
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers';
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons';
 // 解决vue3下 script setup语法糖 下 ，手动设置组件name不方便的问题
@@ -32,6 +33,12 @@ export default ({ mode }) => {
     plugins: [
       vue(),
       AutoImport({
+        include: [
+          /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+          /\.vue$/,
+          /\.vue\?vue/, // .vue
+          /\.md$/ // .md
+        ],
         imports: [
           'vue',
           'vue-router',
@@ -40,7 +47,13 @@ export default ({ mode }) => {
           }
         ],
         resolvers: [ElementPlusResolver()],
-        dts: false
+        dts: './auto-imports.d.ts',
+        // eslint报错解决
+        eslintrc: {
+          enabled: true, // Default `false`
+          filepath: './.eslintrc-auto-import.json', // Default `./.eslintrc-auto-import.json`
+          globalsPropValue: true // Default `true`, (true | false | 'readonly' | 'readable' | 'writable' | 'writeable')
+        }
       }),
       Components({
         resolvers: [ElementPlusResolver()]

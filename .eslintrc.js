@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 17:04:16
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-04-30 21:59:50
+ * @LastEditTime: 2022-05-02 19:10:02
  * @Description: eslint配置
  * 所需插件
  * prettier // 规则见 https://prettier.io/docs/en/options.html
@@ -30,7 +30,8 @@ module.exports = {
     '@vue/typescript/recommended',
     '@vue/prettier',
     '@vue/prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
+    './.eslintrc-auto-import.json'
   ],
   // 这是初始生成的 将其中的内容更改为下面的
   parserOptions: {

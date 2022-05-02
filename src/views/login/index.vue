@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 15:35:55
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-02 18:05:40
+ * @LastEditTime: 2022-05-02 21:54:34
  * @Description: file content
 -->
 <template>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup name="Login">
-import { reactive, ref, toRefs } from 'vue';
+// import { reactive, ref, toRefs } from 'vue';
 import { userLogin } from '@/api/login';
 // import type { FormInstance } from 'element-plus';
 // const ruleFormRef = ref<FormInstance>();
