@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 15:35:55
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-02 21:54:34
+ * @LastEditTime: 2022-05-03 20:36:22
  * @Description: file content
 -->
 <template>
@@ -41,7 +41,7 @@
 </template>
 
 <script lang="ts" setup name="Login">
-// import { reactive, ref, toRefs } from 'vue';
+import axios from 'axios';
 import { userLogin } from '@/api/login';
 // import type { FormInstance } from 'element-plus';
 // const ruleFormRef = ref<FormInstance>();
@@ -86,6 +86,11 @@ const submitForm = () => {
 //   if (!formEl) return;
 //   formEl.resetFields();
 // };
+onMounted(() => {
+  axios.get('/api/createUser').then((res: any) => {
+    console.log(res);
+  });
+});
 </script>
 <style lang="scss" scoped>
 .login-wrap {

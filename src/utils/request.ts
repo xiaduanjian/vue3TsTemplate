@@ -2,16 +2,15 @@
  * @Author: xia.duanjian
  * @Date: 2022-05-01 17:15:27
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-01 22:49:46
+ * @LastEditTime: 2022-05-03 16:48:32
  * @Description: 封装axios请求
  */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { ElNotification, ElMessageBox, ElMessage, ElLoading } from 'element-plus';
 import { getToken } from '@/utils/auth';
-// 下载数据状态
-let downloadLoadingInstance;
+import { sessionCache } from '@/utils/storage';
 // 是否显示重新登录
-const isRelogin = { show: false };
+export const isRelogin = { show: false };
 // 创建axios实例
 const service = axios.create({
   // headers
@@ -20,9 +19,9 @@ const service = axios.create({
   },
   // 基础服务地址
   // baseURL: process.env.VUE_APP_BASE_API,
-  baseURL: 'http://120.24.64.5:8088/mall-admin',
+  baseURL: 'http://odeliver.eflagcomm.com:9451',
   // 超时时间
-  timeout: 5000
+  timeout: 10000
 });
 
 // 请求拦截器
@@ -57,7 +56,7 @@ service.interceptors.request.use(
         data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
         time: new Date().getTime()
       };
-      const sessionObj = sessionStorage.getItem('requestObj');
+      const sessionObj = sessionCache.get('requestObj');
       if (sessionObj) {
         const { url, data, time } = JSON.parse(sessionObj);
         const s_url = url; // 请求地址
@@ -69,12 +68,12 @@ service.interceptors.request.use(
           s_data === requestObj.data &&
           new Date().getTime() - s_time < interval
         ) {
-          return Promise.reject('重复提交');
+          return Promise.reject('请勿重复提交');
         } else {
-          sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+          sessionCache.set('requestObj', requestObj);
         }
       } else {
-        sessionStorage.setItem('requestObj', JSON.stringify(requestObj));
+        sessionCache.set('requestObj', requestObj);
       }
     }
     return config;
@@ -114,6 +113,9 @@ service.interceptors.response.use(
         })
           .then(() => {
             isRelogin.show = false;
+            // store.dispatch('LogOut').then(() => {
+            //   location.href = '/index';
+            // });
           })
           .catch(() => {
             isRelogin.show = false;
