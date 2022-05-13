@@ -1,0 +1,120 @@
+.defaultHeight {
+  height: 30px!important;
+  line-height: 30px!important;
+}
+.el-message {
+  top:50%!important;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  font-size: 12px;
+  line-height: 1.5;
+  min-width: 178px;
+  padding: 20px 20px 20px 55px;
+  text-align: left;
+  border: 1px solid #D3D4D3;
+  background-color: #fff;
+  border-radius: 0;
+  color: #333;
+  .el-message__icon {
+    width: 30px;
+    height: 30px;
+    font-size: 30px;
+    position: absolute;
+    left: 15px;
+    background-repeat: no-repeat;
+    &.el-icon-error {
+      background-position-x: -60px;
+    }
+    &.el-icon-success {
+      background-position-x: -30px;
+    }
+    &.el-icon-info {
+      background-position-x: 0;
+    }
+    &::before {
+      display: none;
+    }
+    .cancelButton {
+
+    }
+    .comfirmButton {
+      
+    }
+  }
+  &.el-message--error,&.el-message--success,&.el-message--info {
+    .el-message__content {
+      color: #333;
+    }
+  }
+}
+
+// 消息弹窗 ElMessageBox.confirm
+.el-overlay-message-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.el-overlay-message-box {
+  .confirmClass {
+    width: auto;
+    min-width: 260px;
+    max-width: 600px;
+    display: inline-block;
+    padding-bottom: 10px;
+    background-color: #fff;
+    text-align: left;
+    .el-message-box__header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      height: 50px;
+      background-color: #0085d0;
+      .el-message-box__title {
+        font-size: 16px;
+        color: #fff;
+      }
+      .el-message-box__headerbtn {
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        width: 20px;
+        height: 20px;
+        padding: 0;
+        background-color: #0085d0;
+        border: none;
+        box-shadow: none;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        &:hover, &:focus,&:active {
+          outline: 0;
+        }
+      }
+    }
+    .el-message-box__content {
+      .el-message-box__container {
+        display: flex;
+        align-items: center;
+        padding: 10px 20px 10px 20px;
+        .el-message-box__status {
+          font-size: 30px;
+          color: #fe8f00;
+        }
+        .el-message-box__message {
+          padding-left: 10px;
+          font-size: 12px;
+        }
+      }
+    }
+    .el-message-box__btns {
+      text-align: center;
+      .el-button {
+        @extend .defaultHeight;
+        padding: 0 13px;
+      }
+    }
+  }
+}

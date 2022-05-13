@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: #409EFF;
+  text-decoration: none;
+}
+
+a:hover, a:active {
+  color: #409EFF;
+  text-decoration: underline;
+}
+
+.align-center {
+  text-align: center;
+}
+.align-left {
+  text-align: left;
+}
+.align-right {
+  text-align: right;
+}

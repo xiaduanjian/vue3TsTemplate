@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-05-01 17:15:27
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-03 16:48:32
+ * @LastEditTime: 2022-05-11 17:31:58
  * @Description: 封装axios请求
  */
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -18,8 +18,9 @@ const service = axios.create({
     'Content-Type': 'application/json;charset=utf-8'
   },
   // 基础服务地址
-  // baseURL: process.env.VUE_APP_BASE_API,
-  baseURL: 'http://odeliver.eflagcomm.com:9451',
+  baseURL: import.meta.env.VITE_APP_BASE_API,
+  // baseURL: 'http://odeliver.eflagcomm.com:9451',
+  // baseURL: 'http://localhost:8088/users/login',
   // 超时时间
   timeout: 10000
 });
@@ -56,29 +57,30 @@ service.interceptors.request.use(
         data: typeof config.data === 'object' ? JSON.stringify(config.data) : config.data,
         time: new Date().getTime()
       };
-      const sessionObj = sessionCache.get('requestObj');
-      if (sessionObj) {
-        const { url, data, time } = JSON.parse(sessionObj);
-        const s_url = url; // 请求地址
-        const s_data = data; // 请求数据
-        const s_time = time; // 请求时间
-        const interval = 1000; // 间隔时间，单位毫秒，小于此时间则视为重复提交
-        if (
-          s_url === requestObj.url &&
-          s_data === requestObj.data &&
-          new Date().getTime() - s_time < interval
-        ) {
-          return Promise.reject('请勿重复提交');
-        } else {
-          sessionCache.set('requestObj', requestObj);
-        }
-      } else {
-        sessionCache.set('requestObj', requestObj);
-      }
+      // const sessionObj = sessionCache.get('requestObj');
+      // if (sessionObj) {
+      //   const { url, data, time } = JSON.parse(sessionObj);
+      //   const s_url = url; // 请求地址
+      //   const s_data = data; // 请求数据
+      //   const s_time = time; // 请求时间
+      //   const interval = 1000; // 间隔时间，单位毫秒，小于此时间则视为重复提交
+      //   if (
+      //     s_url === requestObj.url &&
+      //     s_data === requestObj.data &&
+      //     new Date().getTime() - s_time < interval
+      //   ) {
+      //     return Promise.reject('请勿重复提交');
+      //   } else {
+      //     sessionCache.set('requestObj', requestObj);
+      //   }
+      // } else {
+      //   sessionCache.set('requestObj', requestObj);
+      // }
     }
     return config;
   },
   (error) => {
+    console.log(error);
     return Promise.reject(error);
   }
 );
@@ -141,14 +143,14 @@ service.interceptors.response.use(
     }
   },
   (error) => {
-    let message = error.message;
-    if (message === 'Network Error') {
-      message = '后端接口连接异常';
-    } else if (message.inludes('timeout')) {
-      message = '请求超时，请稍后重试';
-    } else if (message.includes('Request failed with status code')) {
-      message = '系统接口' + message.substr(message.length - 3) + '异常';
-    }
+    const message = error.msg;
+    // if (message === 'Network Error') {
+    //   message = '后端接口连接异常';
+    // } else if (message.inludes('timeout')) {
+    //   message = '请求超时，请稍后重试';
+    // } else if (message.includes('Request failed with status code')) {
+    //   message = '系统接口' + message.substr(message.length - 3) + '异常';
+    // }
     ElMessage({
       message: message,
       type: 'error',

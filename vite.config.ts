@@ -2,7 +2,7 @@
  * @Author: xia.duanjian
  * @Date: 2022-04-30 14:05:11
  * @LastEditors: xia.duanjian
- * @LastEditTime: 2022-05-03 21:29:58
+ * @LastEditTime: 2022-05-11 12:02:55
  * @Description: file content
  */
 import { defineConfig, loadEnv } from 'vite';
@@ -98,7 +98,20 @@ export default ({ mode, command }) => {
     ],
     resolve: {
       alias: {
-        '@': pathResolve('src/')
+        '@': path.resolve(__dirname, 'src')
+      }
+    },
+    define: {
+      'process.env': {}
+    },
+    server: {
+      proxy: {
+        '/api': {
+          target: 'http://localhost:8088',
+          // target: 'http://localhost:8888',
+          changeOrigin: true,
+          rewrite: (p) => p.replace(/^\/api/, '')
+        }
       }
     }
   });
